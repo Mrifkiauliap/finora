@@ -17,7 +17,7 @@ import {
   setCategoryArchived,
 } from '@/services/categoryService';
 import { getDashboardSummary } from '@/services/dashboardService';
-import { loadDemoData } from '@/services/demoDataService';
+import { hasDemoData, loadDemoData } from '@/services/demoDataService';
 import { exportTransactionsCsv } from '@/services/exportService';
 import {
   createGoal,
@@ -572,5 +572,39 @@ describe('Finora Service Layer Integration (fake-indexeddb)', () => {
     expect(second.ok).toBe(true);
     expect(await testDb.transactions.count()).toBe(first.data.transactionsCount);
     expect(await testDb.goalContributions.count()).toBe(5);
+  });
+
+  it('seedDemoOnFirstRun seeds demo once on fresh DB and stays empty after factory reset', async () => {
+    const freshDb = new FinoraDatabase(`FinoraFirstRunDB_${Date.now()}`);
+    try {
+      const firstInit = await initializeApp('2026-11-27', freshDb, {
+        seedDemoOnFirstRun: true,
+      });
+      expect(firstInit.ok).toBe(true);
+      if (!firstInit.ok) return;
+      expect(firstInit.data.demoSeeded).toBe(true);
+      expect(await hasDemoData(freshDb)).toBe(true);
+      expect(await freshDb.transactions.count()).toBeGreaterThanOrEqual(20);
+
+      const resetRes = await factoryResetDatabase(
+        'HAPUS',
+        { reseedDefaultCategories: true },
+        freshDb
+      );
+      expect(resetRes.ok).toBe(true);
+      expect(await hasDemoData(freshDb)).toBe(false);
+      expect(await freshDb.transactions.count()).toBe(0);
+
+      const reloadInit = await initializeApp('2026-11-27', freshDb, {
+        seedDemoOnFirstRun: true,
+      });
+      expect(reloadInit.ok).toBe(true);
+      if (!reloadInit.ok) return;
+      expect(reloadInit.data.demoSeeded).toBe(false);
+      expect(await hasDemoData(freshDb)).toBe(false);
+      expect(await freshDb.transactions.count()).toBe(0);
+    } finally {
+      await freshDb.delete();
+    }
   });
 });

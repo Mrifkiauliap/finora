@@ -49,9 +49,17 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 
   const settings = useLiveQuery(() => db.appSettings.get('default'), [], undefined);
 
+  const showToast = React.useCallback((message: string, tone: ToastTone = 'success') => {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    setToasts((prev) => [...prev.slice(-3), { id, tone, message }]);
+    window.setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4000);
+  }, []);
+
   const runBootstrap = React.useCallback(async () => {
     setBootstrapError(null);
-    const res = await initializeApp();
+    const res = await initializeApp(undefined, db, { seedDemoOnFirstRun: true });
     if (!res.ok) {
       setBootstrapError(res.error.message);
       setBootstrapReady(false);
@@ -60,7 +68,13 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
     setRecurringGeneratedCount(res.data.recurringGeneratedCount);
     setCappedRuleIds(res.data.cappedRuleIds);
     setBootstrapReady(true);
-  }, []);
+    if (res.data.demoSeeded) {
+      showToast(
+        'Data contoh dimuat agar Anda bisa langsung mencoba Finora. Hapus kapan saja untuk mulai kosong.',
+        'info'
+      );
+    }
+  }, [showToast]);
 
   React.useEffect(() => {
     void runBootstrap();
@@ -82,14 +96,6 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     document.documentElement.setAttribute('data-theme', resolvedTheme);
   }, [resolvedTheme]);
-
-  const showToast = React.useCallback((message: string, tone: ToastTone = 'success') => {
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    setToasts((prev) => [...prev.slice(-3), { id, tone, message }]);
-    window.setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
-  }, []);
 
   const togglePrivacyMask = React.useCallback(async () => {
     const next = !(settings?.showBalancesMasked ?? false);

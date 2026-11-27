@@ -1,6 +1,7 @@
 import { db, type FinoraDatabase } from '@/db/database';
 import { buildDefaultAppSettings, buildSystemCategories } from '@/db/seed';
 import { getLocalToday } from '@/domain/dates';
+import { loadDemoData } from './demoDataService';
 import { mapDexieError, ok, type ServiceResult } from './errors';
 import { materializeDueTransactions } from './recurringService';
 
@@ -16,12 +17,20 @@ export interface StorageHealthInfo {
  */
 export async function initializeApp(
   today: string = getLocalToday(),
-  database: FinoraDatabase = db
-): Promise<ServiceResult<{ seeded: boolean; recurringGeneratedCount: number; cappedRuleIds: string[] }>> {
+  database: FinoraDatabase = db,
+  options: { seedDemoOnFirstRun?: boolean } = {}
+): Promise<
+  ServiceResult<{
+    seeded: boolean;
+    demoSeeded: boolean;
+    recurringGeneratedCount: number;
+    cappedRuleIds: string[];
+  }>
+> {
   try {
     await database.open();
 
-    const seeded = await database.transaction(
+    const { seeded, isFirstRun } = await database.transaction(
       'rw',
       database.categories,
       database.appSettings,
@@ -30,6 +39,7 @@ export async function initializeApp(
         let didSeed = false;
 
         const existingSettings = await database.appSettings.get('default');
+        const firstRun = !existingSettings;
         if (!existingSettings) {
           await database.appSettings.put(buildDefaultAppSettings(nowIso));
           didSeed = true;
@@ -41,9 +51,18 @@ export async function initializeApp(
           didSeed = true;
         }
 
-        return didSeed;
+        return { seeded: didSeed, isFirstRun: firstRun };
       }
     );
+
+    let demoSeeded = false;
+    if (isFirstRun && options.seedDemoOnFirstRun) {
+      const demoRes = await loadDemoData(database, today);
+      if (!demoRes.ok) {
+        return demoRes;
+      }
+      demoSeeded = true;
+    }
 
     const matResult = await materializeDueTransactions(today, database);
     if (!matResult.ok) {
@@ -52,6 +71,7 @@ export async function initializeApp(
 
     return ok({
       seeded,
+      demoSeeded,
       recurringGeneratedCount: matResult.data.generatedCount,
       cappedRuleIds: matResult.data.cappedRuleIds,
     });

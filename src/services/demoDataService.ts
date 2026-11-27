@@ -15,8 +15,20 @@ import {
 } from '@/domain/dates';
 import { mapDexieError, ok, type ServiceResult } from './errors';
 
+export const DEMO_ID_PREFIX = '11111111-1111-4111-8';
+
 function demoUuid(group: number, index: number): string {
-  return `11111111-1111-4111-8${String(group).padStart(3, '0')}-${String(index).padStart(12, '0')}`;
+  return `${DEMO_ID_PREFIX}${String(group).padStart(3, '0')}-${String(index).padStart(12, '0')}`;
+}
+
+export async function hasDemoData(database: FinoraDatabase = db): Promise<boolean> {
+  const counts = await Promise.all([
+    database.transactions.where('id').startsWith(DEMO_ID_PREFIX).count(),
+    database.budgets.where('id').startsWith(DEMO_ID_PREFIX).count(),
+    database.financialGoals.where('id').startsWith(DEMO_ID_PREFIX).count(),
+    database.recurringTransactions.where('id').startsWith(DEMO_ID_PREFIX).count(),
+  ]);
+  return counts.some((c) => c > 0);
 }
 
 function clampDay(month: string, day: number, capToDay?: number): string {
