@@ -17,6 +17,7 @@ import {
   setCategoryArchived,
 } from '@/services/categoryService';
 import { getDashboardSummary } from '@/services/dashboardService';
+import { loadDemoData } from '@/services/demoDataService';
 import { exportTransactionsCsv } from '@/services/exportService';
 import {
   createGoal,
@@ -543,5 +544,33 @@ describe('Finora Service Layer Integration (fake-indexeddb)', () => {
     expect(dash.ok && dash.data.totalTransactionCount).toBe(5000);
     // In fake-indexeddb / CI environments give generous margin while logging actual ms
     expect(elapsedMs).toBeLessThan(1500);
+  });
+
+  it('loadDemoData seeds realistic data, yields positive available balance, and stays idempotent', async () => {
+    const first = await loadDemoData(testDb, '2026-11-27');
+    expect(first.ok).toBe(true);
+    if (!first.ok) return;
+
+    expect(first.data.transactionsCount).toBeGreaterThanOrEqual(20);
+    expect(first.data.budgetsCount).toBe(5);
+    expect(first.data.goalsCount).toBe(3);
+    expect(first.data.recurringCount).toBe(3);
+
+    const dash = await getDashboardSummary('2026-11', '2026-11-27', testDb);
+    expect(dash.ok).toBe(true);
+    if (!dash.ok) return;
+
+    expect(dash.data.netBalance).toBe(17_450_000);
+    expect(dash.data.totalAllocatedSavings).toBe(9_500_000);
+    expect(dash.data.availableBalance).toBe(7_950_000);
+    expect(dash.data.monthlyIncome).toBe(11_250_000);
+    expect(dash.data.monthlyExpense).toBe(4_820_000);
+    expect(dash.data.budgetAlerts.some((b) => b.status === 'exceeded')).toBe(true);
+    expect(dash.data.budgetAlerts.some((b) => b.status === 'warning')).toBe(true);
+
+    const second = await loadDemoData(testDb, '2026-11-27');
+    expect(second.ok).toBe(true);
+    expect(await testDb.transactions.count()).toBe(first.data.transactionsCount);
+    expect(await testDb.goalContributions.count()).toBe(5);
   });
 });

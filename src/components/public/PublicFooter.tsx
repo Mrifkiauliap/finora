@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ShieldCheck } from 'lucide-react';
+import { FinoraLogo } from '@/components/shared/FinoraLogo';
 
 export function PublicFooter() {
   return (
@@ -8,9 +9,7 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[var(--brand-subtle)] border border-[var(--brand-soft)] flex items-center justify-center text-[var(--accent-primary)] font-extrabold">
-                F
-              </div>
+              <FinoraLogo size={32} className="rounded-lg" />
               <span className="text-base font-extrabold text-[var(--text-primary)]">Finora</span>
             </div>
             <p className="text-xs leading-relaxed text-[var(--text-secondary)]">

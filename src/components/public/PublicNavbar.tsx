@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { FinoraLogo } from '@/components/shared/FinoraLogo';
 import { cn } from '@/lib/cn';
 
 const NAV_LINKS = [
@@ -25,9 +26,7 @@ export function PublicNavbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-[var(--brand-subtle)] border border-[var(--brand-soft)] flex items-center justify-center text-[var(--accent-primary)] font-extrabold text-lg">
-            F
-          </div>
+          <FinoraLogo size={36} />
           <span className="text-base font-extrabold tracking-tight text-[var(--text-primary)]">
             Finora
           </span>

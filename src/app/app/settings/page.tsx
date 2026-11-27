@@ -7,9 +7,11 @@ import {
   DatabaseBackup,
   HardDrive,
   ShieldCheck,
+  Sparkles,
   Trash2,
 } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProviders';
+import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { TypedConfirmDialog } from '@/components/shared/TypedConfirmDialog';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -22,12 +24,15 @@ import {
   requestPersistentStorage,
   type StorageHealthInfo,
 } from '@/services/bootstrapService';
+import { loadDemoData } from '@/services/demoDataService';
 import { factoryResetDatabase, updateSettings } from '@/services/settingsService';
 
 export default function SettingsPage() {
   const { settings, bootstrapReady, setThemePreference, showToast } = useAppContext();
 
   const [storageInfo, setStorageInfo] = React.useState<StorageHealthInfo | null>(null);
+  const [demoOpen, setDemoOpen] = React.useState(false);
+  const [loadingDemo, setLoadingDemo] = React.useState(false);
   const [resetOpen, setResetOpen] = React.useState(false);
   const [reseedDefault, setReseedDefault] = React.useState(true);
   const [resetting, setResetting] = React.useState(false);
@@ -63,6 +68,18 @@ export default function SettingsPage() {
       return;
     }
     showToast('Ambang peringatan default diperbarui.');
+  };
+
+  const handleConfirmLoadDemo = async () => {
+    setLoadingDemo(true);
+    const res = await loadDemoData();
+    setLoadingDemo(false);
+    setDemoOpen(false);
+    if (!res.ok) {
+      showToast(res.error.message, 'error');
+      return;
+    }
+    showToast('Data contoh berhasil dimuat! Buka Dashboard untuk mencobanya.');
   };
 
   const handleConfirmFactoryReset = async () => {
@@ -105,7 +122,7 @@ export default function SettingsPage() {
                 Tema Antarmuka
               </label>
               <p className="text-xs text-[var(--text-secondary)]">
-                Default Gelap (Navy-Slate) atau Terang terkalibrasi WCAG 2.1.
+                Default Terang (Modern Minimalist) atau Gelap yang nyaman di mata.
               </p>
             </div>
             <NativeSelect
@@ -114,8 +131,8 @@ export default function SettingsPage() {
               onChange={(e) => void setThemePreference(e.target.value as ThemePreference)}
               className="sm:w-48"
             >
-              <option value="dark">Gelap (Default)</option>
-              <option value="light">Terang</option>
+              <option value="light">Terang (Default)</option>
+              <option value="dark">Gelap</option>
               <option value="system">Ikuti Sistem</option>
             </NativeSelect>
           </div>
@@ -239,6 +256,24 @@ export default function SettingsPage() {
         </div>
       </Card>
 
+      {/* Demo / Mode Coba */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-[var(--accent-primary)]" aria-hidden="true" />
+            <CardTitle>Data Contoh (Mode Coba)</CardTitle>
+          </div>
+          <Badge tone="accent">Demo</Badge>
+        </CardHeader>
+        <p className="text-sm text-[var(--text-secondary)] mb-4">
+          Isi database lokal dengan data contoh realistis (transaksi 3 bulan terakhir, anggaran, target tabungan, dan jadwal berulang) untuk mencoba seluruh fitur Finora. Memuat data contoh akan mengganti catatan keuangan yang ada saat ini.
+        </p>
+        <Button variant="secondary" onClick={() => setDemoOpen(true)}>
+          <Sparkles className="w-4 h-4 text-[var(--accent-primary)]" aria-hidden="true" />
+          Muat Data Contoh
+        </Button>
+      </Card>
+
       {/* Danger Zone */}
       <Card className="border-red-500/40">
         <CardHeader>
@@ -263,6 +298,16 @@ export default function SettingsPage() {
           Hapus Semua Data Lokal
         </Button>
       </Card>
+
+      <ConfirmDialog
+        open={demoOpen}
+        onOpenChange={setDemoOpen}
+        title="Muat Data Contoh?"
+        description="Seluruh transaksi, anggaran, target, dan jadwal berulang yang ada saat ini akan diganti dengan data contoh Finora."
+        confirmLabel="Ya, Muat Data Contoh"
+        loading={loadingDemo}
+        onConfirm={handleConfirmLoadDemo}
+      />
 
       <TypedConfirmDialog
         open={resetOpen}

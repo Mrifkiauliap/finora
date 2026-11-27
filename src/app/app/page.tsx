@@ -14,6 +14,7 @@ import {
   Percent,
   PiggyBank,
   Plus,
+  Sparkles,
   Wallet,
 } from 'lucide-react';
 import { BudgetProgressCard } from '@/components/budgets/BudgetProgressCard';
@@ -36,11 +37,24 @@ import {
   shiftMonth,
 } from '@/domain/dates';
 import { getDashboardSummary, type DashboardSummary } from '@/services/dashboardService';
+import { loadDemoData } from '@/services/demoDataService';
 
 export default function DashboardPage() {
-  const { bootstrapReady, isMasked } = useAppContext();
+  const { bootstrapReady, isMasked, showToast } = useAppContext();
   const [selectedMonth, setSelectedMonth] = React.useState<string>(() => getLocalMonth());
   const [dismissBackupBanner, setDismissBackupBanner] = React.useState(false);
+  const [loadingDemo, setLoadingDemo] = React.useState(false);
+
+  const handleLoadDemo = async () => {
+    setLoadingDemo(true);
+    const res = await loadDemoData();
+    setLoadingDemo(false);
+    if (!res.ok) {
+      showToast(res.error.message, 'error');
+      return;
+    }
+    showToast('Data contoh berhasil dimuat! Jelajahi dashboard, anggaran, target, dan analitik.');
+  };
 
   const queryState = useLiveQuery(async (): Promise<{
     ok: boolean;
@@ -251,19 +265,45 @@ export default function DashboardPage() {
 
       {/* Empty Welcome CTA if 0 transactions */}
       {isEmptyState ? (
-        <EmptyState
-          icon={Wallet}
-          title="Mulai Catat Keuanganmu — 100% Lokal & Privat"
-          description="Belum ada transaksi tercatat. Tambahkan pemasukan atau pengeluaran pertama Anda, atau pulihkan data dari berkas Backup JSON."
-          actionLabel="+ Catat Transaksi Pertama"
-          onAction={() => {
-            window.location.href = '/app/transactions/new';
-          }}
-          secondaryActionLabel="Impor Backup JSON"
-          onSecondaryAction={() => {
-            window.location.href = '/app/settings/backup';
-          }}
-        />
+        <div className="space-y-3">
+          <EmptyState
+            icon={Wallet}
+            title="Mulai Catat Keuanganmu — 100% Lokal & Privat"
+            description="Belum ada transaksi tercatat. Tambahkan pemasukan atau pengeluaran pertama Anda, atau pulihkan data dari berkas Backup JSON."
+            actionLabel="+ Catat Transaksi Pertama"
+            onAction={() => {
+              window.location.href = '/app/transactions/new';
+            }}
+            secondaryActionLabel="Impor Backup JSON"
+            onSecondaryAction={() => {
+              window.location.href = '/app/settings/backup';
+            }}
+          />
+          <Card className="bg-[var(--brand-subtle)] border-[var(--brand-soft)] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[var(--bg-surface)] border border-[var(--brand-soft)] text-[var(--accent-primary)] flex items-center justify-center shrink-0">
+                <Sparkles className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-[var(--text-primary)]">
+                  Ingin langsung coba fitur Finora dengan data contoh?
+                </p>
+                <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+                  Isi otomatis transaksi 3 bulan terakhir, anggaran bulanan, target tabungan, dan jadwal berulang. Dapat dihapus kapan saja dari Pengaturan.
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => void handleLoadDemo()}
+              disabled={loadingDemo}
+              className="shrink-0 bg-[var(--bg-surface)]"
+            >
+              <Sparkles className="w-4 h-4 text-[var(--accent-primary)]" aria-hidden="true" />
+              {loadingDemo ? 'Memuat...' : 'Muat Data Contoh (Demo)'}
+            </Button>
+          </Card>
+        </div>
       ) : null}
 
       {/* Row 2: Chart + Budget Alerts */}

@@ -17,6 +17,7 @@ import {
   Tags,
   Target,
 } from 'lucide-react';
+import { FinoraLogo } from '@/components/shared/FinoraLogo';
 import { cn } from '@/lib/cn';
 
 export const PRIMARY_NAV_ITEMS = [
@@ -48,9 +49,7 @@ export function AppSidebar() {
     <aside className="no-print hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-[var(--bg-surface)] border-r border-[var(--border-subtle)] z-30">
       <div className="h-16 px-5 flex items-center justify-between gap-3 border-b border-[var(--border-subtle)]">
         <Link href="/app" className="flex items-center gap-3 min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-primary)] font-bold text-lg shrink-0">
-            F
-          </div>
+          <FinoraLogo size={36} />
           <div className="min-w-0">
             <p className="text-base font-bold text-[var(--text-primary)] leading-tight">Finora</p>
             <p className="text-[11px] text-[var(--text-secondary)] truncate">

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Eye, EyeOff, Moon, Plus, Search, Sun } from 'lucide-react';
 import { useAppContext } from '@/components/providers/AppProviders';
+import { FinoraLogo } from '@/components/shared/FinoraLogo';
 import { Button } from '@/components/ui/Button';
 
 const PAGE_TITLES: Record<string, string> = {
@@ -51,9 +52,9 @@ export function TopHeader({ onOpenCommand }: { onOpenCommand?: () => void }) {
         <Link
           href="/"
           aria-label="Halaman Utama Finora"
-          className="lg:hidden w-8 h-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-primary)] font-bold text-sm shrink-0"
+          className="lg:hidden shrink-0"
         >
-          F
+          <FinoraLogo size={32} className="rounded-lg" />
         </Link>
         <h1 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] truncate">
           {pageTitle}
