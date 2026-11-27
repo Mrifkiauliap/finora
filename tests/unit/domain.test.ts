@@ -13,6 +13,7 @@ import {
 } from '@/domain/financeCalculators';
 import { buildDeterministicInsights } from '@/domain/insightsEngine';
 import { formatIdr, parseIdrDigits } from '@/domain/money';
+import { buildCashflowSankeyData } from '@/domain/sankeyLayout';
 import { UpsertBudgetSchema } from '@/schemas/budgetSchema';
 import { CreateTransactionSchema } from '@/schemas/transactionSchema';
 
@@ -207,5 +208,60 @@ describe('Domain Calculators & Validators (Finora BUSINESS_RULES)', () => {
 
     expect(csv.startsWith('\uFEFF')).toBe(true);
     expect(csv).toContain('"\'=HYPERLINK(""http://bad"")"');
+  });
+
+  it('buildCashflowSankeyData balances surplus, deficit, and category overflow cleanly', () => {
+    const empty = buildCashflowSankeyData({
+      incomeByCategory: [],
+      expenseByCategory: [],
+      totalIncome: 0,
+      totalExpense: 0,
+    });
+    expect(empty.hubTotal).toBe(0);
+    expect(empty.centerNode).toBeNull();
+
+    const surplus = buildCashflowSankeyData({
+      incomeByCategory: [
+        { categoryId: 'inc1', categoryName: 'Gaji', color: '#10B981', amount: 8_500_000, percentage: 85 },
+        { categoryId: 'inc2', categoryName: 'Freelance', color: '#38BDF8', amount: 1_500_000, percentage: 15 },
+      ],
+      expenseByCategory: [
+        { categoryId: 'e1', categoryName: 'Makanan', color: '#F59E0B', amount: 2_000_000, percentage: 40 },
+        { categoryId: 'e2', categoryName: 'Tagihan', color: '#FB7185', amount: 1_500_000, percentage: 30 },
+        { categoryId: 'e3', categoryName: 'Transport', color: '#38BDF8', amount: 500_000, percentage: 10 },
+        { categoryId: 'e4', categoryName: 'Belanja', color: '#A78BFA', amount: 400_000, percentage: 8 },
+        { categoryId: 'e5', categoryName: 'Hiburan', color: '#E879F9', amount: 300_000, percentage: 6 },
+        { categoryId: 'e6', categoryName: 'Kesehatan', color: '#22C55E', amount: 200_000, percentage: 4 },
+        { categoryId: 'e7', categoryName: 'Pendidikan', color: '#60A5FA', amount: 100_000, percentage: 2 },
+      ],
+      totalIncome: 10_000_000,
+      totalExpense: 5_000_000,
+    });
+
+    expect(surplus.hubTotal).toBe(10_000_000);
+    expect(surplus.leftNodes).toHaveLength(2);
+    expect(surplus.rightNodes[0]?.kind).toBe('savings');
+    expect(surplus.rightNodes[0]?.amount).toBe(5_000_000);
+    // 1 savings node + top 5 expenses + 1 Pengeluaran Lainnya overflow = 7 right nodes
+    expect(surplus.rightNodes).toHaveLength(7);
+    expect(surplus.rightNodes.some((n) => n.label === 'Pengeluaran Lainnya' && n.amount === 300_000)).toBe(true);
+    expect(surplus.leftNodes.reduce((s, n) => s + n.amount, 0)).toBe(surplus.hubTotal);
+    expect(surplus.rightNodes.reduce((s, n) => s + n.amount, 0)).toBe(surplus.hubTotal);
+    expect(surplus.links).toHaveLength(surplus.leftNodes.length + surplus.rightNodes.length);
+
+    const deficit = buildCashflowSankeyData({
+      incomeByCategory: [
+        { categoryId: 'inc1', categoryName: 'Gaji', color: '#10B981', amount: 3_000_000, percentage: 100 },
+      ],
+      expenseByCategory: [
+        { categoryId: 'e1', categoryName: 'Tagihan', color: '#FB7185', amount: 4_500_000, percentage: 100 },
+      ],
+      totalIncome: 3_000_000,
+      totalExpense: 4_500_000,
+    });
+    expect(deficit.hubTotal).toBe(4_500_000);
+    expect(deficit.leftNodes.some((n) => n.kind === 'deficit' && n.amount === 1_500_000)).toBe(true);
+    expect(deficit.leftNodes.reduce((s, n) => s + n.amount, 0)).toBe(deficit.hubTotal);
+    expect(deficit.rightNodes.reduce((s, n) => s + n.amount, 0)).toBe(deficit.hubTotal);
   });
 });

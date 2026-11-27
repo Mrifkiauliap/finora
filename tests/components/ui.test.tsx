@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { BudgetProgressCard } from '@/components/budgets/BudgetProgressCard';
+import { CashflowSankeyChart } from '@/components/analytics/CashflowSankeyChart';
 import { CommandPalette } from '@/components/layout/CommandPalette';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { CurrencyInput } from '@/components/shared/CurrencyInput';
@@ -177,5 +178,27 @@ describe('Finora UI Components', () => {
     expect(screen.getByText('PENGELOLAAN & SISTEM')).toBeInTheDocument();
     expect(screen.getByText('Tambah pemasukan atau pengeluaran baru')).toBeInTheDocument();
     expect(screen.getByText('Cadangkan atau pulihkan database JSON lokal')).toBeInTheDocument();
+  });
+
+  it('CashflowSankeyChart renders SVG flow diagram, node labels, and supports privacy masking', () => {
+    const props = {
+      incomeByCategory: [
+        { categoryId: 'cat-sys-salary', categoryName: 'Gaji', color: '#10B981', amount: 8_500_000, percentage: 100 },
+      ],
+      expenseByCategory: [
+        { categoryId: 'cat-sys-food', categoryName: 'Makanan & Minuman', color: '#F59E0B', amount: 2_500_000, percentage: 100 },
+      ],
+      totalIncome: 8_500_000,
+      totalExpense: 2_500_000,
+    };
+
+    const { rerender } = render(<CashflowSankeyChart {...props} />);
+    expect(screen.getByRole('img', { name: 'Diagram Sankey aliran arus kas' })).toBeInTheDocument();
+    expect(screen.getByText('Gaji')).toBeInTheDocument();
+    expect(screen.getByText('Tabungan / Sisa Bersih')).toBeInTheDocument();
+    expect(screen.getByText('Makanan & Minuman')).toBeInTheDocument();
+
+    rerender(<CashflowSankeyChart {...props} masked />);
+    expect(screen.getAllByText(/Rp •••••••/).length).toBeGreaterThanOrEqual(3);
   });
 });

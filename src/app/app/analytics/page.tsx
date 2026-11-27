@@ -21,6 +21,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from 'lucide-react';
+import { CashflowSankeyChart } from '@/components/analytics/CashflowSankeyChart';
 import { useAppContext } from '@/components/providers/AppProviders';
 import { ChartContainerCard } from '@/components/shared/ChartContainerCard';
 import { KpiSummaryCard } from '@/components/shared/KpiSummaryCard';
@@ -227,6 +228,16 @@ export default function AnalyticsPage() {
           ))}
         </div>
       ) : null}
+
+      {/* Sankey Diagram: Cashflow Flow */}
+      <CashflowSankeyChart
+        incomeByCategory={report?.incomeByCategory ?? []}
+        expenseByCategory={report?.expenseByCategory ?? []}
+        totalIncome={report?.currentSummary.totalIncome ?? 0}
+        totalExpense={report?.currentSummary.totalExpense ?? 0}
+        loading={loading}
+        masked={isMasked}
+      />
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
