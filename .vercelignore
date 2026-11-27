@@ -1,0 +1,12 @@
+.agents/
+.claude/
+.roo/
+.trae/
+finora/
+docs/
+tests/
+SKILL.md
+skills-lock.json
+.next/
+node_modules/
+coverage/

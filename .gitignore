@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Next.js & Build
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local env
+.env*.local
+
+# OS & Logs
+.DS_Store
+Thumbs.db
+npm-debug.log*
