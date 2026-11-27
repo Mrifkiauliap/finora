@@ -45,7 +45,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   const [recurringGeneratedCount, setRecurringGeneratedCount] = React.useState(0);
   const [cappedRuleIds, setCappedRuleIds] = React.useState<string[]>([]);
   const [toasts, setToasts] = React.useState<ToastItem[]>([]);
-  const [systemPrefersDark, setSystemPrefersDark] = React.useState(true);
+  const [systemPrefersDark, setSystemPrefersDark] = React.useState(false);
 
   const settings = useLiveQuery(() => db.appSettings.get('default'), [], undefined);
 
@@ -75,7 +75,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  const themePref: ThemePreference = settings?.theme ?? 'dark';
+  const themePref: ThemePreference = settings?.theme ?? 'light';
   const resolvedTheme: 'dark' | 'light' =
     themePref === 'system' ? (systemPrefersDark ? 'dark' : 'light') : themePref;
 

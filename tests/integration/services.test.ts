@@ -54,15 +54,15 @@ describe('Finora Service Layer Integration (fake-indexeddb)', () => {
     const settings = await testDb.appSettings.get('default');
     expect(cats).toHaveLength(13);
     expect(cats.every((c) => c.isSystem)).toBe(true);
-    expect(settings?.theme).toBe('dark');
+    expect(settings?.theme).toBe('light');
     expect(settings?.currency).toBe('IDR');
 
     // Second run should be idempotent
-    await updateSettings({ theme: 'light' }, testDb);
+    await updateSettings({ theme: 'dark' }, testDb);
     const second = await initializeApp('2026-11-27', testDb);
     expect(second.ok).toBe(true);
     expect(await testDb.categories.count()).toBe(13);
-    expect((await testDb.appSettings.get('default'))?.theme).toBe('light');
+    expect((await testDb.appSettings.get('default'))?.theme).toBe('dark');
   });
 
   it('TC-003, TC-005, TC-008, TC-009: Transaction CRUD and Dashboard aggregation', async () => {

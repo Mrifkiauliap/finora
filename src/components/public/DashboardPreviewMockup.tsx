@@ -1,8 +1,7 @@
 import { ArrowDownLeft, ArrowUpRight, ShieldCheck, Utensils, Wallet } from 'lucide-react';
 
 /**
- * Pratinjau UI statis berbasis data ilustrasi murni (zero IndexedDB access).
- * Mengacu pada estetika kartu berlapis dark-emerald referensi.
+ * Pratinjau UI statis berbasis data ilustrasi murni.
  */
 export function DashboardPreviewMockup() {
   return (
@@ -16,7 +15,7 @@ export function DashboardPreviewMockup() {
               Selamat Datang
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-semibold text-[var(--accent-primary)]">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--brand-subtle)] border border-[var(--brand-soft)] text-[11px] font-semibold text-[var(--accent-primary)]">
             <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
             Pratinjau Ilustrasi
           </span>
@@ -49,14 +48,14 @@ export function DashboardPreviewMockup() {
           <div className="rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] p-3.5">
             <div className="flex items-center justify-between text-xs mb-2">
               <span className="font-medium text-[var(--text-primary)]">
-                Anggaran Makanan & Minuman
+                Anggaran Makanan &amp; Minuman
               </span>
               <span className="tabular-nums font-semibold text-[var(--accent-primary)]">
                 64% terpakai
               </span>
             </div>
-            <div className="h-2 rounded-full bg-[var(--bg-surface)] overflow-hidden">
-              <div className="h-full w-[64%] rounded-full bg-[var(--accent-primary)]" />
+            <div className="h-2 rounded-full bg-[var(--bg-elevated)] overflow-hidden">
+              <div className="h-full w-[64%] rounded-full bg-[var(--accent-graphic)]" />
             </div>
           </div>
 
@@ -77,9 +76,9 @@ export function DashboardPreviewMockup() {
             </span>
           </div>
 
-          <div className="rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] p-3.5 flex items-center justify-between gap-3 sm:opacity-60">
+          <div className="rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] p-3.5 flex items-center justify-between gap-3 sm:opacity-75">
             <div className="flex items-center gap-2.5 min-w-0">
-              <span className="w-8 h-8 rounded-full bg-emerald-500/15 text-[var(--accent-primary)] flex items-center justify-center shrink-0">
+              <span className="w-8 h-8 rounded-full bg-[var(--brand-subtle)] text-[var(--accent-primary)] flex items-center justify-center shrink-0">
                 <Wallet className="w-4 h-4" aria-hidden="true" />
               </span>
               <div className="min-w-0">
@@ -96,8 +95,8 @@ export function DashboardPreviewMockup() {
         </div>
       </div>
 
-      {/* Overlapping Floating Trend Card (Inspired by Reference) */}
-      <div className="mt-4 sm:mt-0 sm:absolute sm:left-0 sm:bottom-0 w-full sm:w-[290px] rounded-2xl bg-[var(--bg-elevated)]/95 backdrop-blur-md border border-[var(--border-subtle)] p-4 shadow-[var(--overlay-shadow)]">
+      {/* Overlapping Floating Trend Card */}
+      <div className="mt-4 sm:mt-0 sm:absolute sm:left-0 sm:bottom-0 w-full sm:w-[290px] rounded-2xl bg-[var(--bg-popover)] border border-[var(--border-subtle)] p-4 shadow-[var(--overlay-shadow)]">
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="text-[11px] font-medium text-[var(--text-secondary)]">
@@ -110,7 +109,7 @@ export function DashboardPreviewMockup() {
               +18,4% rasio tabungan
             </span>
           </div>
-          <span className="w-8 h-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-primary)]">
+          <span className="w-8 h-8 rounded-lg bg-[var(--brand-subtle)] border border-[var(--brand-soft)] flex items-center justify-center text-[var(--accent-primary)]">
             <Wallet className="w-4 h-4" aria-hidden="true" />
           </span>
         </div>
@@ -124,13 +123,13 @@ export function DashboardPreviewMockup() {
         >
           <defs>
             <linearGradient id="finoraCurveFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#10B981" stopOpacity="0.28" />
+              <stop offset="0%" stopColor="#10B981" stopOpacity="0.24" />
               <stop offset="100%" stopColor="#10B981" stopOpacity="0" />
             </linearGradient>
           </defs>
-          <line x1="0" y1="20" x2="260" y2="20" stroke="#263449" strokeDasharray="3 3" />
-          <line x1="0" y1="50" x2="260" y2="50" stroke="#263449" strokeDasharray="3 3" />
-          <line x1="0" y1="80" x2="260" y2="80" stroke="#263449" strokeDasharray="3 3" />
+          <line x1="0" y1="20" x2="260" y2="20" stroke="var(--chart-grid)" strokeDasharray="3 3" />
+          <line x1="0" y1="50" x2="260" y2="50" stroke="var(--chart-grid)" strokeDasharray="3 3" />
+          <line x1="0" y1="80" x2="260" y2="80" stroke="var(--chart-grid)" strokeDasharray="3 3" />
           <path
             d="M 4 68 C 32 70, 48 56, 72 58 C 96 60, 112 36, 138 38 C 164 40, 178 52, 202 34 C 220 22, 238 26, 252 18 L 252 88 L 4 88 Z"
             fill="url(#finoraCurveFill)"
@@ -143,7 +142,7 @@ export function DashboardPreviewMockup() {
             strokeLinecap="round"
           />
           <circle cx="252" cy="18" r="6" fill="#10B981" fillOpacity="0.25" />
-          <circle cx="252" cy="18" r="3.5" fill="#34D399" />
+          <circle cx="252" cy="18" r="3.5" fill="#059669" />
         </svg>
       </div>
     </div>

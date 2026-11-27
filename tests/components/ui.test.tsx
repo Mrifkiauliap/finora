@@ -1,11 +1,35 @@
 import * as React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { BudgetProgressCard } from '@/components/budgets/BudgetProgressCard';
+import { CommandPalette } from '@/components/layout/CommandPalette';
+import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { CurrencyInput } from '@/components/shared/CurrencyInput';
 import { MoneyText } from '@/components/shared/MoneyText';
 import { TypedConfirmDialog } from '@/components/shared/TypedConfirmDialog';
+
+const mockPush = vi.fn();
+let mockPathname = '/app';
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+  usePathname: () => mockPathname,
+}));
+
+vi.mock('@/components/providers/AppProviders', () => ({
+  useAppContext: () => ({
+    settings: undefined,
+    resolvedTheme: 'dark',
+    isMasked: false,
+    togglePrivacyMask: vi.fn().mockResolvedValue(undefined),
+    setThemePreference: vi.fn().mockResolvedValue(undefined),
+    showToast: vi.fn(),
+    bootstrapReady: true,
+    recurringGeneratedCount: 0,
+    cappedRuleIds: [],
+  }),
+}));
 
 describe('Finora UI Components', () => {
   it('MoneyText formats IDR and supports privacy masking', () => {
@@ -93,5 +117,65 @@ describe('Finora UI Components', () => {
 
     await user.click(confirmBtn);
     expect(onConfirm).toHaveBeenCalledTimes(1);
+  });
+
+  it('CommandPalette opens on Ctrl+K, filters commands, navigates on Enter, and closes on Escape', async () => {
+    const user = userEvent.setup();
+    mockPush.mockClear();
+
+    const Wrapper = () => {
+      const [open, setOpen] = React.useState(false);
+      return <CommandPalette open={open} onOpenChange={setOpen} />;
+    };
+
+    render(<Wrapper />);
+    expect(screen.queryByRole('combobox', { name: 'Cari perintah' })).not.toBeInTheDocument();
+
+    await user.keyboard('{Control>}k{/Control}');
+
+    const input = await screen.findByRole('combobox', { name: 'Cari perintah' });
+    expect(input).toBeInTheDocument();
+    expect(screen.getByText('Aksi Cepat')).toBeInTheDocument();
+    expect(screen.getByText('Navigasi')).toBeInTheDocument();
+
+    await user.type(input, 'laporan');
+    expect(screen.getByRole('option', { name: /Laporan & Ekspor/i })).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: /Anggaran Bulanan/i })).not.toBeInTheDocument();
+
+    await user.keyboard('{Enter}');
+    expect(mockPush).toHaveBeenCalledWith('/app/reports');
+    await waitFor(() => {
+      expect(screen.queryByRole('combobox', { name: 'Cari perintah' })).not.toBeInTheDocument();
+    });
+
+    await user.keyboard('{Control>}k{/Control}');
+    expect(await screen.findByRole('combobox', { name: 'Cari perintah' })).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(screen.queryByRole('combobox', { name: 'Cari perintah' })).not.toBeInTheDocument();
+    });
+  });
+
+  it('MobileBottomNav renders 5 slots and opens grouped Menu Aplikasi bottom sheet', async () => {
+    const user = userEvent.setup();
+    mockPathname = '/app';
+
+    render(<MobileBottomNav />);
+
+    expect(screen.getByRole('link', { name: 'Beranda' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Transaksi' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Anggaran' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Target' })).toBeInTheDocument();
+
+    const moreBtn = screen.getByRole('button', { name: 'Lainnya' });
+    expect(moreBtn).toBeInTheDocument();
+
+    await user.click(moreBtn);
+
+    expect(await screen.findByText('Menu Aplikasi')).toBeInTheDocument();
+    expect(screen.getByText('KEUANGAN & PERENCANAAN')).toBeInTheDocument();
+    expect(screen.getByText('PENGELOLAAN & SISTEM')).toBeInTheDocument();
+    expect(screen.getByText('Tambah pemasukan atau pengeluaran baru')).toBeInTheDocument();
+    expect(screen.getByText('Cadangkan atau pulihkan database JSON lokal')).toBeInTheDocument();
   });
 });

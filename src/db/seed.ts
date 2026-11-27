@@ -4,7 +4,7 @@ import type { AppSettingsRecord, CategoryRecord } from './types';
 export function buildDefaultAppSettings(nowIso: string): AppSettingsRecord {
   return {
     id: 'default',
-    theme: 'dark',
+    theme: 'light',
     currency: 'IDR',
     locale: 'id-ID',
     firstDayOfWeek: 1,

@@ -16,12 +16,12 @@ import {
 export const metadata: Metadata = {
   title: 'Fitur Lengkap',
   description:
-    'Pelajari seluruh fitur Finora: pencatatan transaksi IDR, kategori fleksibel, anggaran bulanan, target tabungan, transaksi berulang, analitik Recharts, laporan CSV, dan Backup JSON SHA-256.',
+    'Kenali seluruh fitur Finora: catat transaksi harian, atur kategori, kontrol anggaran bulanan, pantau target tabungan, jadwal berulang, grafik analitik, laporan rapi, dan cadangan data.',
   alternates: { canonical: '/features' },
   openGraph: {
     title: 'Fitur Lengkap Finora',
     description:
-      'Semua alat manajemen keuangan pribadi local-first dalam satu aplikasi PWA yang cepat dan privat.',
+      'Semua fitur pengelolaan keuangan pribadi yang rapi, cepat, dan menjaga penuh privasi Anda.',
     url: '/features',
   },
 };
@@ -30,91 +30,91 @@ const FEATURE_MODULES = [
   {
     icon: Wallet,
     badge: 'Inti',
-    title: 'Manajemen Transaksi & Filter Multi-Kriteria',
+    title: 'Pencatatan Transaksi & Pencarian Cepat',
     points: [
-      'Nominal disimpan sebagai integer aman IDR (Rp 1 s.d. Rp 999.999.999.999) tanpa selisih pembulatan float.',
-      'Tanggal kalender lokal YYYY-MM-DD bebas pergeseran hari akibat zona waktu.',
-      'Pencarian teks real-time serta filter berdasarkan rentang tanggal, tipe, kategori, dan metode pembayaran lengkap dengan subtotal.',
+      'Catat pemasukan dan pengeluaran Rupiah dengan angka bulat yang akurat.',
+      'Pilih tanggal transaksi sesuai kalender harian lengkap dengan catatan dan metode pembayaran.',
+      'Cari riwayat seketika serta saring berdasarkan tanggal, tipe transaksi, kategori, atau metode bayar.',
     ],
   },
   {
     icon: Tags,
     badge: 'Organisasi',
-    title: 'Kategori Fleksibel & Penghapusan Aman',
+    title: 'Kategori Fleksibel & Aman Dikelola',
     points: [
-      'Otomatis menyediakan 13 kategori sistem bawaan (5 pemasukan, 8 pengeluaran) saat pertama dibuka.',
-      'Buat kategori kustom dengan nama unik, pilihan ikon Lucide terkurasi, dan warna penanda.',
-      'Kategori yang sudah dipakai tidak dapat terhapus sembarangan: pilih Soft-Archive atau pindahkan seluruh referensinya (Reassignment) secara atomik.',
+      'Tersedia 13 kategori umum bawaan sejak pertama kali membuka aplikasi.',
+      'Tambah kategori kustom sesuai kebiasaan belanja lengkap dengan pilihan ikon dan warna.',
+      'Kategori yang sudah terpakai dapat diarsipkan atau dipindahkan ke kategori lain tanpa merusak riwayat transaksi.',
     ],
   },
   {
     icon: PieChart,
     badge: 'Kontrol',
-    title: 'Anggaran Bulanan dengan Ambang Peringatan',
+    title: 'Anggaran Bulanan dengan Peringatan Dini',
     points: [
-      'Tetapkan batas pengeluaran per kategori per bulan YYYY-MM dengan ambang peringatan 50%–95%.',
-      'Evaluasi realisasi otomatis: status Aman, Mendekati Batas, hingga Melebihi Batas (over-budget).',
-      'Fitur "Salin dari Bulan Lalu" mempercepat penyiapan anggaran bulanan tanpa menimpa data yang sudah ada.',
+      'Atur batas pengeluaran per kategori tiap bulan beserta ambang pengingat sesuai kebutuhan.',
+      'Pantau status belanja secara langsung mulai dari Aman, Mendekati Batas, hingga Melebihi Batas.',
+      'Salin aturan anggaran dari bulan sebelumnya dalam sekali klik untuk menghemat waktu.',
     ],
   },
   {
     icon: Target,
     badge: 'Tabungan',
-    title: 'Target Keuangan (Anti-Double Counting)',
+    title: 'Target Keuangan yang Jelas',
     points: [
-      'Setoran dan penarikan target dicatat sebagai earmark dana, bukan sebagai transaksi pengeluaran fiktif.',
-      'Otomatis membedakan Saldo Bersih vs Saldo Tersedia bebas pakai.',
-      'Menghitung estimasi kebutuhan tabungan bulanan ketika target memiliki tenggat waktu.',
+      'Setoran tabungan dicatat terpisah sehingga tidak membuat total pengeluaran terlihat membengkak.',
+      'Memisahkan Saldo Bersih dan Saldo Tersedia agar Anda tahu dana yang benar-benar bebas dipakai.',
+      'Membantu memperkirakan kebutuhan nabung per bulan jika Anda menetapkan batas waktu.',
     ],
   },
   {
     icon: Repeat,
     badge: 'Otomatisasi',
-    title: 'Transaksi Berulang Lokal Idempoten',
+    title: 'Transaksi Berulang Terjadwal',
     points: [
-      'Mendukung siklus harian, mingguan, bulanan, dan tahunan dengan interval kustom.',
-      'End-of-month clamping: tanggal 31 otomatis menyesuaikan akhir bulan Februari (28/29) lalu kembali ke 31 pada Maret.',
-      'Materialisasi dilakukan aman tanpa duplikasi dan tanpa memerlukan server cron.',
+      'Atur pemasukan gaji, uang kos, atau tagihan rutin harian, mingguan, bulanan, maupun tahunan.',
+      'Tanggal akhir bulan otomatis menyesuaikan panjang hari di setiap bulan secara akurat.',
+      'Transaksi jatuh tempo dibuat otomatis tanpa duplikasi saat Anda membuka aplikasi.',
     ],
   },
   {
     icon: BarChart3,
     badge: 'Wawasan',
-    title: 'Analitik Visual & Insight Deterministik',
+    title: 'Analitik Visual & Ringkasan Bulanan',
     points: [
-      'Grafik batang tren Pemasukan vs Pengeluaran dan grafik Donut proporsi kategori pengeluaran.',
-      'Kartu insight lokal menghitung perubahan pengeluaran antar-periode, pos terbesar, dan kesehatan rasio tabungan.',
-      '100% dihitung di browser tanpa mengirim data ke server AI eksternal.',
+      'Grafik perbandingan Pemasukan vs Pengeluaran dan porsi kategori pengeluaran yang mudah dibaca.',
+      'Ringkasan kondisi keuangan otomatis yang menyorot perubahan belanja dan rasio tabungan Anda.',
+      'Semua hitungan diolah langsung di perangkat tanpa mengirim data ke mana pun.',
     ],
   },
   {
     icon: FileSpreadsheet,
     badge: 'Laporan',
-    title: 'Laporan Siap Cetak & Ekspor CSV Aman',
+    title: 'Laporan Siap Cetak & Ekspor Tabel',
     points: [
-      'Tampilan ringkasan periode siap cetak dengan stylesheet khusus @media print.',
-      'Ekspor CSV ber-UTF-8 BOM agar langsung rapi dibuka di Microsoft Excel maupun Google Sheets.',
-      'Dilengkapi proteksi anti CSV Formula Injection untuk sel teks berawalan karakter formula.',
+      'Tampilan ringkasan periode bulanan yang rapi ketika dicetak atau disimpan menjadi PDF.',
+      'Unduh data transaksi ke file tabel untuk dibuka langsung di Excel atau Google Sheets.',
+      'Menyajikan ringkasan pemasukan, pengeluaran, dan kategori utama per periode.',
     ],
   },
   {
     icon: DatabaseBackup,
     badge: 'Portabilitas',
-    title: 'Backup JSON SHA-256 & Restore Preview',
+    title: 'Backup & Restore dengan Pratinjau',
     points: [
-      'Ekspor seluruh 7 tabel FinoraDB ke format JSON berversi dengan checksum integritas SHA-256.',
-      'Pratinjau isi dan deteksi konflik sebelum memulihkan data melalui mode Merge maupun Replace All.',
-      'Dibatasi 25 MB dengan sanitasi prototipe dan validasi skema Zod ketat.',
+      'Unduh seluruh data transaksi, anggaran, target, dan kategori ke satu file cadangan kapan saja.',
+      'Lihat ringkasan isi file dan potensi konflik sebelum memulihkan data ke perangkat lain.',
+      'Pilih gabungkan data baru atau ganti seluruh isi aplikasi sesuai kebutuhan Anda.',
     ],
   },
   {
     icon: WifiOff,
-    badge: 'PWA',
-    title: 'Installable & Berjalan Penuh Saat Offline',
+    badge: 'Kemudahan',
+    title: 'Nyaman Dipasang & Tetap Jalan Offline',
     points: [
-      'Dapat dipasang di Android, iOS, Windows, dan macOS sebagai aplikasi mandiri.',
-      'Service Worker memisahkan cache aset antarmuka dari data keuangan Anda di IndexedDB.',
-      'Halaman fallback /offline ramah saat mengakses rute yang belum ter-cache.',
+      'Dapat dipasang di layar utama ponsel atau desktop layaknya aplikasi mandiri.',
+      'Tetap bisa membuka aplikasi, mencatat transaksi, dan cek anggaran meski tanpa koneksi internet.',
+      'Mendukung mode terang maupun mode gelap yang ramah di mata.',
     ],
   },
 ] as const;
@@ -123,22 +123,22 @@ export default function FeaturesPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
       <div className="max-w-3xl space-y-4">
-        <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/15 text-[var(--accent-primary)] text-xs font-semibold">
+        <span className="inline-block px-3 py-1 rounded-full bg-[var(--brand-subtle)] border border-[var(--brand-soft)] text-[var(--accent-primary)] text-xs font-semibold">
           Fitur Produk Finora
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
           Semua yang Anda butuhkan untuk mengelola keuangan pribadi secara{' '}
-          <span className="font-editorial italic font-normal text-[var(--accent-hover)]">
+          <span className="text-[var(--accent-primary)]">
             akurat dan privat
           </span>
         </h1>
         <p className="text-base text-[var(--text-secondary)] leading-relaxed">
-          Setiap modul Finora dirancang agar ringan di perangkat seluler, presisi dalam kalkulasi Rupiah, dan sepenuhnya mandiri di browser Anda.
+          Setiap fitur Finora dirancang agar ringan dipakai di ponsel maupun laptop, jelas dalam perhitungan Rupiah, dan sepenuhnya menjadi milik Anda.
         </p>
         <div className="pt-2">
           <Link
             href="/app"
-            className="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-sm transition-colors shadow-xs"
           >
             <span>Open My Finance</span>
             <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -152,10 +152,10 @@ export default function FeaturesPage() {
           return (
             <section
               key={mod.title}
-              className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 flex flex-col gap-4"
+              className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 flex flex-col gap-4 shadow-[var(--card-shadow)]"
             >
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-[var(--accent-primary)] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-subtle)] border border-[var(--brand-soft)] text-[var(--accent-primary)] flex items-center justify-center">
                   <Icon className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-secondary)]">

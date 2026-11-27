@@ -1,29 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { headers } from 'next/headers';
-import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import '@fontsource-variable/plus-jakarta-sans';
 import './globals.css';
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-plus-jakarta',
-  display: 'swap',
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['normal', 'italic'],
-  variable: '--font-editorial-serif',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://finora.vercel.app';
 
@@ -34,14 +12,14 @@ export const metadata: Metadata = {
     template: '%s | Finora',
   },
   description:
-    'Aplikasi manajemen keuangan pribadi local-first dan offline-first. Catat transaksi IDR, atur anggaran, pantau target tabungan, dan simpan data 100% di browser Anda tanpa login.',
+    'Aplikasi pengelola keuangan pribadi yang menjaga privasi. Catat pemasukan dan pengeluaran, atur anggaran bulanan, dan pantau target tabungan langsung dari perangkat Anda.',
   applicationName: 'Finora',
   keywords: [
     'manajemen keuangan pribadi',
-    'aplikasi keuangan local-first',
-    'catatan keuangan offline PWA',
-    'anggaran bulanan IDR',
-    'privacy-first personal finance',
+    'aplikasi pengelola uang',
+    'catatan keuangan offline',
+    'anggaran bulanan',
+    'target tabungan',
   ],
   manifest: '/manifest.webmanifest',
   openGraph: {
@@ -50,13 +28,13 @@ export const metadata: Metadata = {
     siteName: 'Finora',
     title: 'Finora — Your Money, Your Control',
     description:
-      'Catat transaksi, kelola anggaran, dan pantau target tabungan secara offline langsung di browser Anda—tanpa registrasi, tanpa server, dan tanpa pelacakan.',
+      'Catat transaksi, atur anggaran, dan pantau target tabungan dengan tenang—tanpa daftar, tanpa akun, dan data tersimpan langsung di perangkat Anda.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Finora — Manajemen Keuangan Pribadi Local-First',
+        alt: 'Finora — Pengelola Keuangan Pribadi',
       },
     ],
   },
@@ -64,13 +42,13 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Finora — Your Money, Your Control',
     description:
-      'Manajemen keuangan pribadi local-first & offline-first. 100% tersimpan di perangkat Anda.',
+      'Catat transaksi, atur anggaran, dan pantau target tabungan langsung di perangkat Anda.',
     images: ['/og-image.png'],
   },
   appleWebApp: {
     capable: true,
     title: 'Finora',
-    statusBarStyle: 'black-translucent',
+    statusBarStyle: 'default',
   },
   icons: {
     icon: [
@@ -82,7 +60,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0B1220',
+  themeColor: '#F8FAFC',
   width: 'device-width',
   initialScale: 1,
 };
@@ -97,9 +75,8 @@ export default async function RootLayout({
   return (
     <html
       lang="id"
-      data-theme="dark"
+      data-theme="light"
       data-nonce={nonce}
-      className={`${plusJakarta.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body>{children}</body>

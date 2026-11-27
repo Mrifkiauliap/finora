@@ -4,7 +4,6 @@ import {
   ArrowUpRight,
   BarChart3,
   CheckCircle2,
-  Database,
   DatabaseBackup,
   HardDrive,
   Lock,
@@ -21,14 +20,14 @@ import { DashboardPreviewMockup } from '@/components/public/DashboardPreviewMock
 import { FaqAccordion, type FaqItem } from '@/components/public/FaqAccordion';
 
 export const metadata: Metadata = {
-  title: 'Finora — Manajemen Keuangan Pribadi Local-First & Offline-First',
+  title: 'Finora — Kelola Keuangan Pribadi Lebih Tenang & Terkendali',
   description:
-    'Kelola transaksi IDR, anggaran bulanan, target tabungan, dan analitik keuangan langsung di browser Anda tanpa login, tanpa server, dan tetap jalan saat offline.',
+    'Catat pemasukan dan pengeluaran Rupiah, atur anggaran bulanan, pantau target tabungan, dan lihat ringkasan keuangan Anda tanpa daftar dan tetap jalan tanpa internet.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Finora — Your Money, Your Control',
     description:
-      'Aplikasi keuangan pribadi privacy-first dan offline-first di perangkat Anda sendiri.',
+      'Aplikasi keuangan pribadi yang praktis dan menjaga penuh privasi data di perangkat Anda sendiri.',
     url: '/',
   },
 };
@@ -36,39 +35,39 @@ export const metadata: Metadata = {
 const CORE_FEATURES = [
   {
     icon: Wallet,
-    title: 'Pencatatan Arus Kas IDR Cepat',
+    title: 'Catat Transaksi Hitungan Detik',
     description:
-      'Catat pemasukan dan pengeluaran harian dalam hitungan detik dengan validasi bilangan bulat IDR yang presisi, pencarian instan, dan filter multi-kriteria.',
+      'Rekam pemasukan dan pengeluaran harian dengan rapi, cari riwayat transaksi seketika, dan saring berdasarkan tanggal, kategori, atau metode bayar.',
   },
   {
     icon: PieChart,
-    title: 'Anggaran Bulanan & Sinyal Dini',
+    title: 'Anggaran Bulanan Terkontrol',
     description:
-      'Tetapkan batas pengeluaran per kategori tiap bulan dengan ambang peringatan 50%–95%, salin anggaran bulan lalu, dan pantau status Aman hingga Melebihi Batas.',
+      'Tetapkan batas belanja tiap kategori setiap bulan dengan pengingat otomatis sebelum anggaran terlewati, plus salin anggaran bulan sebelumnya.',
   },
   {
     icon: Target,
-    title: 'Target Tabungan Anti-Double Counting',
+    title: 'Target Tabungan Lebih Jelas',
     description:
-      'Sisihkan dana ke target tabungan tanpa mengacaukan total pengeluaran bulanan. Ketahui Saldo Bersih vs Saldo Tersedia bebas pakai secara transparan.',
+      'Sisihkan dana untuk tujuan tertentu tanpa membuat laporan pengeluaran terlihat membengkak. Bedakan total saldo dan saldo bebas pakai dengan mudah.',
   },
   {
     icon: Repeat,
-    title: 'Transaksi Berulang Lokal',
+    title: 'Jadwal Transaksi Rutin',
     description:
-      'Jadwalkan gaji, sewa kos, atau tagihan rutin secara harian, mingguan, bulanan (dengan end-of-month clamping tanggal 31), maupun tahunan tanpa server cron.',
+      'Catat gaji bulanan, uang kos, atau tagihan langganan sekali saja agar otomatis tercatat sesuai jadwal harian, mingguan, bulanan, atau tahunan.',
   },
   {
     icon: BarChart3,
-    title: 'Analitik & Ekspor CSV Aman',
+    title: 'Ringkasan & Laporan Rapi',
     description:
-      'Grafik tren arus kas, komposisi kategori, ringkasan insight deterministik lokal, laporan siap cetak, serta ekspor CSV UTF-8 BOM yang terlindung dari formula injection.',
+      'Lihat grafik pemasukan vs pengeluaran, kategori belanja terbesar, dan insight bulanan, lalu cetak atau ekspor laporan ke spreadsheet kapan pun.',
   },
   {
     icon: DatabaseBackup,
-    title: 'Backup JSON SHA-256 & Restore Preview',
+    title: 'Cadangkan & Pindahkan Data',
     description:
-      'Ekspor seluruh basis data lokal ke berkas JSON berversi dengan checksum SHA-256, pratinjau konflik sebelum pemulihan, dan pilihan mode Merge atau Replace.',
+      'Simpan file cadangan seluruh catatan Anda ke perangkat kapan saja dan pulihkan dengan pratinjau yang aman saat berpindah ponsel atau browser.',
   },
 ] as const;
 
@@ -76,77 +75,77 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: 'Apakah saya harus membuat akun atau login untuk memakai Finora?',
     answer:
-      'Tidak perlu. Finora dirancang zero-signup. Begitu Anda menekan "Open My Finance" untuk masuk ke /app, basis data lokal di browser Anda langsung disiapkan lengkap dengan 13 kategori bawaan agar Anda bisa langsung mencatat.',
+      'Tidak perlu. Anda bisa langsung menekan "Open My Finance" untuk mulai mencatat. Kategori pemasukan dan pengeluaran umum sudah langsung tersedia sejak awal.',
   },
   {
     question: 'Di mana data transaksi keuangan saya disimpan?',
     answer:
-      'Seluruh data disimpan eksklusif di dalam IndexedDB (FinoraDB) pada browser dan perangkat Anda sendiri. Server hosting hanya mengirimkan aset tampilan aplikasi dan tidak pernah menerima atau menyimpan catatan keuangan Anda.',
+      'Seluruh catatan keuangan disimpan langsung di browser pada perangkat Anda sendiri. Data Anda tidak dikirim ke server lain dan tidak dibaca oleh pihak ketiga.',
   },
   {
-    question: 'Apakah Finora benar-benar bisa digunakan tanpa koneksi internet?',
+    question: 'Apakah Finora tetap bisa digunakan saat tidak ada internet?',
     answer:
-      'Ya. Setelah kunjungan pertama, Service Worker menyimpan kerangka aplikasi dan aset statis secara lokal. Anda tetap dapat membuka aplikasi, mencatat transaksi, mengevaluasi anggaran, hingga mengunduh CSV/Backup saat offline.',
+      'Ya. Setelah pertama kali dibuka, Finora tetap bisa diakses dan digunakan penuh meskipun sinyal sedang lemah atau perangkat dalam mode offline.',
   },
   {
-    question: 'Bagaimana jika saya berganti ponsel atau ingin memindahkan data ke browser lain?',
+    question: 'Bagaimana jika saya berganti ponsel atau ingin pindah browser?',
     answer:
-      'Gunakan menu Backup & Restore di dalam aplikasi (/app/settings/backup) untuk mengunduh berkas JSON terverifikasi SHA-256, lalu unggah berkas tersebut di perangkat atau browser baru Anda dengan pratinjau pemulihan yang aman.',
+      'Anda dapat mengunduh file cadangan lewat menu Pengaturan → Backup & Restore, lalu mengunggahnya kembali di perangkat atau browser baru dengan pratinjau sebelum data digabung atau diganti.',
   },
   {
     question: 'Apa bedanya Saldo Bersih dan Saldo Tersedia di Finora?',
     answer:
-      'Saldo Bersih adalah total pemasukan dikurangi total pengeluaran riil. Saldo Tersedia adalah Saldo Bersih setelah dikurangi dana yang sudah Anda alokasikan ke Target Keuangan, sehingga tabungan tidak tercampur dengan pengeluaran.',
+      'Saldo Bersih adalah selisih seluruh pemasukan dan pengeluaran Anda. Saldo Tersedia adalah sisa dana yang benar-benar bebas dipakai setelah dikurangi tabungan yang sudah Anda sisihkan ke Target Keuangan.',
   },
   {
-    question: 'Apakah berkas Backup JSON saya dienkripsi kata sandi?',
+    question: 'Apakah data saya aman jika saya membersihkan data browser?',
     answer:
-      'Pada versi MVP saat ini, berkas Backup JSON dilengkapi checksum SHA-256 untuk memastikan keutuhan berkas dari kerusakan, bukan enkripsi kata sandi. Simpan berkas cadangan Anda di folder pribadi yang aman.',
+      'Karena data disimpan di perangkat Anda sendiri dan tidak otomatis dienkripsi dengan akun cloud, menghapus data situs atau memakai mode penyamaran (Incognito) akan menghapus catatan yang belum dicadangkan. Unduh file cadangan Anda secara berkala dan simpan di tempat aman.',
   },
 ];
 
 export default function LandingPage() {
   return (
     <div>
-      {/* 2, 3, 4, 5. Hero Section + CTAs + Product Dashboard Preview */}
-      <section className="hero-emerald-glow border-b border-[var(--border-subtle)]">
+      {/* Hero Section + Product Preview */}
+      <section className="hero-emerald-glow border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-16 sm:pt-16 sm:pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs font-medium text-[var(--text-secondary)]">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)]" aria-hidden="true" />
-                <span>Local-First • Offline-First • Zero Signup</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--brand-subtle)] border border-[var(--brand-soft)] text-xs font-semibold text-[var(--accent-primary)]">
+                <span className="w-2 h-2 rounded-full bg-[var(--brand-primary)]" aria-hidden="true" />
+                <span>Langsung Pakai • Tanpa Akun • Tetap Jalan Offline</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight leading-[1.08] text-[var(--text-primary)]">
+              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1] text-[var(--text-primary)]">
                 Kelola keuangan pribadi dengan{' '}
-                <span className="font-editorial italic font-normal text-[var(--accent-hover)]">
+                <span className="text-[var(--accent-primary)]">
                   tenang &amp; kendali penuh
                 </span>
               </h1>
 
               <p className="text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] max-w-xl">
-                Finora membantu Anda mencatat transaksi Rupiah, mengendalikan anggaran bulanan, dan memantau target tabungan langsung di browser—tanpa akun, tanpa pelacakan, dan tetap bekerja saat luring.
+                Finora membantu Anda mencatat transaksi Rupiah, mengendalikan anggaran bulanan, dan memantau target tabungan langsung dari perangkat Anda—tanpa registrasi, tanpa pelacakan, dan tetap lancar saat luring.
               </p>
 
               <div className="flex flex-wrap items-center gap-3.5 pt-1">
                 <Link
                   href="/app"
-                  className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-sm sm:text-base transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-sm sm:text-base transition-colors shadow-xs"
                 >
                   <span>Open My Finance</span>
                   <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
                 <Link
                   href="/features"
-                  className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--bg-surface)] text-[var(--text-primary)] border border-[var(--border-subtle)] hover:bg-[var(--bg-elevated)] font-medium text-sm sm:text-base transition-colors"
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--bg-surface)] text-[var(--text-primary)] border border-[var(--border-control)] hover:bg-[var(--bg-elevated)] font-medium text-sm sm:text-base transition-colors"
                 >
                   Explore Features
                 </Link>
               </div>
 
               <p className="text-xs text-[var(--text-secondary)]">
-                Akses instan tanpa registrasi • Data tersimpan lokal di perangkat Anda
+                Gratis digunakan • Catatan keuangan tetap tersimpan di perangkat Anda
               </p>
             </div>
 
@@ -155,23 +154,23 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Trust Architecture Pillars Strip */}
+          {/* Trust Pillars Strip */}
           <div className="mt-14 pt-8 border-t border-[var(--border-subtle)]">
-            <p className="text-center text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)] mb-6">
-              Dirancang untuk Kedaulatan Data Pribadi Anda
+            <p className="text-center text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-6">
+              Dirancang agar Anda nyaman mencatat setiap hari
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: Database, label: '100% IndexedDB Lokal' },
-                { icon: Lock, label: 'Zero Backend & Login' },
-                { icon: WifiOff, label: 'Offline-First PWA' },
-                { icon: ShieldCheck, label: 'Backup SHA-256 Checksum' },
+                { icon: Lock, label: 'Tanpa Daftar & Login' },
+                { icon: HardDrive, label: 'Data di Perangkat Anda' },
+                { icon: WifiOff, label: 'Tetap Jalan Tanpa Internet' },
+                { icon: ShieldCheck, label: 'Backup & Ekspor Kapan Saja' },
               ].map((pillar) => {
                 const Icon = pillar.icon;
                 return (
                   <div
                     key={pillar.label}
-                    className="flex items-center justify-center gap-2.5 rounded-2xl bg-[var(--bg-surface)]/80 border border-[var(--border-subtle)] px-4 py-3 text-xs sm:text-sm font-semibold text-[var(--text-primary)]"
+                    className="flex items-center justify-center gap-2.5 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] px-4 py-3 text-xs sm:text-sm font-semibold text-[var(--text-primary)]"
                   >
                     <Icon className="w-4 h-4 text-[var(--accent-primary)] shrink-0" aria-hidden="true" />
                     <span>{pillar.label}</span>
@@ -183,31 +182,31 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6. Problem & Solution Section */}
+      {/* Problem & Solution Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="max-w-2xl mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
             Mengapa pencatatan keuangan sering berhenti di minggu pertama?
           </h2>
           <p className="mt-3 text-sm sm:text-base text-[var(--text-secondary)]">
-            Bukan karena Anda tidak disiplin, melainkan karena banyak aplikasi membebani pengguna dengan akun cloud, jeda jaringan, dan privasi yang kabur.
+            Banyak orang berhenti mencatat bukan karena malas, melainkan karena aplikasi terasa merepotkan sejak awal dipakai.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 space-y-4">
+          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 space-y-4 shadow-[var(--card-shadow)]">
             <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[var(--status-danger-text)]">
-              Hambatan Konvensional
+              Masalah yang Sering Dialami
             </span>
             <h3 className="text-lg font-semibold text-[var(--text-primary)]">
-              Aplikasi Keuangan Berbasis Server
+              Proses Rumit dan Privasi Tidak Jelas
             </h3>
             <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
               {[
-                'Wajib registrasi email, kata sandi, dan verifikasi sebelum bisa mencatat.',
-                'Riwayat transaksi diunggah ke server pihak ketiga dan rentan analitik.',
-                'Gagal membuka atau menyimpan saat berada di lokasi tanpa sinyal.',
-                'Alokasi tabungan sering tercampur sehingga mengacaukan angka pengeluaran.',
+                'Harus daftar akun, isi email, dan buat kata sandi sebelum bisa mencatat.',
+                'Data pengeluaran dikirim ke pihak luar sehingga terasa kurang nyaman.',
+                'Tidak bisa membuka atau mencatat saat sinyal internet sedang sulit.',
+                'Uang yang disisihkan untuk menabung sering tercampur dengan pengeluaran.',
               ].map((txt) => (
                 <li key={txt} className="flex items-start gap-2.5">
                   <XCircle className="w-4 h-4 text-[var(--status-danger-text)] shrink-0 mt-0.5" aria-hidden="true" />
@@ -217,19 +216,19 @@ export default function LandingPage() {
             </ul>
           </div>
 
-          <div className="rounded-2xl bg-[var(--bg-surface)] border border-emerald-500/35 p-6 space-y-4">
+          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--brand-primary)]/35 p-6 space-y-4 shadow-[var(--card-shadow)]">
             <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[var(--accent-primary)]">
-              Pendekatan Finora
+              Solusi dari Finora
             </span>
             <h3 className="text-lg font-semibold text-[var(--text-primary)]">
-              Local-First &amp; Offline-First di Perangkat Anda
+              Ringkas, Privat, dan Siap Dipakai Kapan Saja
             </h3>
             <ul className="space-y-3 text-sm text-[var(--text-secondary)]">
               {[
-                'Zero-signup: buka /app dan langsung catat transaksi pertama Anda.',
-                'Nol transmisi data finansial ke jaringan, nol pelacak iklan atau cookie.',
-                'Service Worker menjaga aplikasi tetap aktif dan responsif saat luring.',
-                'Pemisahan tegas Saldo Bersih vs Saldo Tersedia dengan target earmark.',
+                'Buka aplikasi dan langsung catat transaksi pertama Anda tanpa registrasi.',
+                'Seluruh catatan keuangan tetap tinggal di perangkat Anda, bebas pelacakan.',
+                'Tetap responsif dan berfungsi normal walau koneksi sedang offline.',
+                'Tabungan target dipisahkan dari pengeluaran agar saldo bebas pakai tetap akurat.',
               ].map((txt) => (
                 <li key={txt} className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[var(--status-success)] shrink-0 mt-0.5" aria-hidden="true" />
@@ -241,16 +240,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 7. Core Features Showcase */}
-      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]/40">
+      {/* Core Features Showcase */}
+      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div className="max-w-2xl">
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
-                Lengkap untuk arus kas harian hingga perencanaan jangka panjang
+                Lengkap untuk catatan harian hingga perencanaan jangka panjang
               </h2>
               <p className="mt-2.5 text-sm sm:text-base text-[var(--text-secondary)]">
-                Setiap fitur dihitung secara deterministik dengan nominal integer IDR bebas pembulatan keliru.
+                Dirancang dengan perhitungan Rupiah yang presisi dan tampilan yang bersih agar mudah dipahami sekilas.
               </p>
             </div>
             <Link
@@ -268,9 +267,9 @@ export default function LandingPage() {
               return (
                 <div
                   key={feat.title}
-                  className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 space-y-3"
+                  className="rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] p-6 space-y-3"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-[var(--accent-primary)] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--brand-subtle)] border border-[var(--brand-soft)] text-[var(--accent-primary)] flex items-center justify-center">
                     <Icon className="w-5 h-5" aria-hidden="true" strokeWidth={1.75} />
                   </div>
                   <h3 className="text-base font-semibold text-[var(--text-primary)]">
@@ -286,27 +285,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 8 & 9. Privacy-First Architecture & Offline-First PWA */}
+      {/* Privacy & Offline Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* 8. Privacy-First Architecture */}
-          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 sm:p-8 space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 text-[var(--accent-primary)] text-xs font-semibold">
+          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 sm:p-8 space-y-5 shadow-[var(--card-shadow)]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--brand-subtle)] text-[var(--accent-primary)] text-xs font-semibold">
               <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
-              Arsitektur Privacy-First
+              Privasi Sejak Awal
             </div>
             <h2 className="text-2xl font-bold text-[var(--text-primary)]">
-              Data keuangan tidak pernah meninggalkan perangkat Anda
+              Data keuangan Anda tetap berada di perangkat sendiri
             </h2>
             <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
-              Finora tidak memiliki database server maupun endpoint API pengguna. Server hosting hanya mengirimkan kode antarmuka statis dengan 8 HTTP security headers wajib dan Content Security Policy ketat.
+              Finora tidak meminta akun dan tidak mengunggah catatan transaksi Anda ke server mana pun. Semua ringkasan, anggaran, dan laporan diolah langsung di perangkat Anda.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               {[
-                { title: 'Zero Telemetry', desc: 'Tanpa analytics tracker, cookie pelacakan, atau font CDN eksternal.' },
-                { title: 'Privacy Mask', desc: 'Sembunyikan angka saldo satu klik di tempat umum.' },
-                { title: 'Validasi Zod Ketat', desc: 'Setiap input dan file impor backup divalidasi skema ketat.' },
-                { title: 'Kontrol Hapus Penuh', desc: 'Bersihkan seluruh data lokal kapan saja dari Pengaturan.' },
+                { title: 'Tanpa Pelacakan', desc: 'Tidak ada pelacak aktivitas atau cookie iklan yang mengikuti Anda.' },
+                { title: 'Sembunyikan Saldo', desc: 'Samarkan nominal angka satu ketukan saat membuka aplikasi di tempat umum.' },
+                { title: 'Cadangan Portabel', desc: 'Unduh file cadangan kapan saja untuk disimpan atau dipindah perangkat.' },
+                { title: 'Kendali Hapus Penuh', desc: 'Anda bebas menghapus seluruh catatan kapan pun dari Pengaturan.' },
               ].map((item) => (
                 <div
                   key={item.title}
@@ -321,34 +319,33 @@ export default function LandingPage() {
               href="/privacy"
               className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent-primary)] hover:underline"
             >
-              Baca Kebijakan Privasi &amp; Batasan Lokal
+              Baca Kebijakan Privasi Finora
               <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
 
-          {/* 9. Offline-First PWA */}
-          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 sm:p-8 space-y-5">
+          <div className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 sm:p-8 space-y-5 shadow-[var(--card-shadow)]">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] text-xs font-semibold">
               <Smartphone className="w-3.5 h-3.5 text-[var(--accent-primary)]" aria-hidden="true" />
-              Progressive Web Application (PWA)
+              Nyaman di Ponsel &amp; Desktop
             </div>
             <h2 className="text-2xl font-bold text-[var(--text-primary)]">
-              Pasang di ponsel atau desktop, tetap lancar tanpa sinyal
+              Bisa dipasang seperti aplikasi, lancar tanpa sinyal
             </h2>
             <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
-              Setelah kunjungan pertama, Service Worker menyimpan aset aplikasi agar Anda bisa membuka Finora layaknya aplikasi native—bahkan saat mode pesawat aktif.
+              Pasang Finora ke layar utama ponsel atau desktop Anda agar terasa seperti aplikasi bawaan—cepat dibuka kapan saja, termasuk saat jaringan terputus.
             </p>
             <div className="space-y-3 pt-1">
               {[
                 {
-                  icon: HardDrive,
-                  title: 'Isolasi Cache Ketat',
-                  desc: 'CacheStorage Service Worker hanya menyimpan kerangka aplikasi; catatan transaksi Anda tidak pernah masuk ke cache SW.',
+                  icon: Smartphone,
+                  title: 'Tampilan Rapi Satu Tangan',
+                  desc: 'Navigasi bawah mobile memudahkan Anda berpindah antar ringkasan, transaksi, anggaran, dan target dalam sekali sentuh.',
                 },
                 {
                   icon: WifiOff,
-                  title: 'Operasional Offline Penuh',
-                  desc: 'Catat transaksi, cek anggaran, ekspor CSV, dan buat backup JSON tetap berjalan normal tanpa internet.',
+                  title: 'Tetap Berjalan Saat Offline',
+                  desc: 'Catat pengeluaran, cek sisa anggaran, hingga ekspor laporan tetap bekerja normal tanpa harus menunggu koneksi kembali.',
                 },
               ].map((item) => {
                 const Icon = item.icon;
@@ -370,15 +367,15 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 10. How It Works */}
-      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]/40">
+      {/* How It Works */}
+      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-surface)]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="text-center max-w-xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
               Mulai dalam tiga langkah sederhana
             </h2>
             <p className="mt-2.5 text-sm sm:text-base text-[var(--text-secondary)]">
-              Tanpa formulir pendaftaran, tanpa verifikasi email, langsung produktif.
+              Tanpa formulir pendaftaran, tanpa verifikasi email, langsung siap digunakan.
             </p>
           </div>
 
@@ -386,25 +383,25 @@ export default function LandingPage() {
             {[
               {
                 step: '01',
-                title: 'Buka Aplikasi (/app)',
-                desc: 'Tekan "Open My Finance". Finora otomatis menyiapkan FinoraDB lokal dan 13 kategori default siap pakai di browser Anda.',
+                title: 'Buka Aplikasi',
+                desc: 'Tekan "Open My Finance". Kategori pemasukan dan pengeluaran umum sudah langsung disiapkan agar Anda tinggal pakai.',
               },
               {
                 step: '02',
-                title: 'Catat, Anggarkan & Alokasikan',
-                desc: 'Rekam transaksi harian IDR, pasang batas anggaran bulanan, dan sisihkan dana ke target tabungan tanpa double counting.',
+                title: 'Catat & Atur Anggaran',
+                desc: 'Rekam transaksi harian, tetapkan batas pengeluaran tiap kategori, dan sisihkan dana ke target tabungan Anda.',
               },
               {
                 step: '03',
-                title: 'Evaluasi & Cadangkan Mandiri',
-                desc: 'Tinjau grafik analitik lokal, unduh laporan CSV untuk spreadsheet, dan simpan cadangan JSON terverifikasi SHA-256 kapan saja.',
+                title: 'Pantau & Cadangkan',
+                desc: 'Lihat grafik arus kas bulanan, unduh laporan rapi, dan simpan file cadangan data secara mandiri kapan saja.',
               },
             ].map((item) => (
               <div
                 key={item.step}
-                className="rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] p-6 space-y-3"
+                className="rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] p-6 space-y-3"
               >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-500/15 text-[var(--accent-primary)] font-mono text-sm font-bold">
+                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--brand-subtle)] border border-[var(--brand-soft)] text-[var(--accent-primary)] font-mono text-sm font-bold">
                   {item.step}
                 </span>
                 <h3 className="text-base font-semibold text-[var(--text-primary)]">
@@ -419,25 +416,25 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 11. FAQ Section */}
+      {/* FAQ Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
             Pertanyaan yang Sering Diajukan
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[var(--text-secondary)]">
-            Jawaban jujur mengenai privasi lokal, operasional offline, dan portabilitas data Finora.
+            Penjelasan singkat mengenai cara kerja Finora, privasi data, dan penyimpanan cadangan.
           </p>
         </div>
         <FaqAccordion items={FAQ_ITEMS} />
       </section>
 
-      {/* 12. Final CTA */}
+      {/* Final CTA */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="rounded-3xl bg-[var(--bg-surface)] border border-emerald-500/35 p-8 sm:p-12 text-center hero-emerald-glow space-y-5">
-          <h2 className="text-2xl sm:text-4xl font-bold text-[var(--text-primary)] max-w-2xl mx-auto">
+        <div className="rounded-3xl bg-[var(--bg-surface)] border border-[var(--brand-primary)]/30 p-8 sm:p-12 text-center hero-emerald-glow space-y-5 shadow-[var(--card-shadow)]">
+          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] max-w-2xl mx-auto">
             Siap mengambil kendali penuh atas{' '}
-            <span className="font-editorial italic font-normal text-[var(--accent-hover)]">
+            <span className="text-[var(--accent-primary)]">
               keuangan pribadi Anda?
             </span>
           </h2>
@@ -447,14 +444,14 @@ export default function LandingPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Link
               href="/app"
-              className="inline-flex items-center gap-2 h-12 px-7 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-sm sm:text-base transition-colors"
+              className="inline-flex items-center gap-2 h-12 px-7 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-sm sm:text-base transition-colors shadow-xs"
             >
               <span>Open My Finance</span>
               <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <Link
               href="/features"
-              className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--bg-canvas)] text-[var(--text-primary)] border border-[var(--border-subtle)] hover:bg-[var(--bg-elevated)] font-medium text-sm sm:text-base transition-colors"
+              className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--bg-canvas)] text-[var(--text-primary)] border border-[var(--border-control)] hover:bg-[var(--bg-elevated)] font-medium text-sm sm:text-base transition-colors"
             >
               Explore Features
             </Link>

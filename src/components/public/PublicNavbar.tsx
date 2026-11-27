@@ -21,22 +21,22 @@ export function PublicNavbar() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border-subtle)]/70 bg-[var(--bg-canvas)]/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/90 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-primary)] font-bold text-lg">
+          <div className="w-9 h-9 rounded-xl bg-[var(--brand-subtle)] border border-[var(--brand-soft)] flex items-center justify-center text-[var(--accent-primary)] font-extrabold text-lg">
             F
           </div>
-          <span className="text-base font-bold tracking-tight text-[var(--text-primary)]">
+          <span className="text-base font-extrabold tracking-tight text-[var(--text-primary)]">
             Finora
           </span>
         </Link>
 
-        {/* Center Floating Pill Nav (Desktop) */}
+        {/* Center Pill Nav (Desktop) */}
         <nav
           aria-label="Navigasi Publik"
-          className="hidden md:flex items-center gap-1 rounded-full bg-[var(--bg-surface)]/90 border border-[var(--border-subtle)] p-1"
+          className="hidden md:flex items-center gap-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] p-1"
         >
           {NAV_LINKS.map((item) => {
             const active = isActive(item.href);
@@ -48,7 +48,7 @@ export function PublicNavbar() {
                 className={cn(
                   'px-4 py-1.5 rounded-full text-sm font-medium transition-colors',
                   active
-                    ? 'bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-semibold'
+                    ? 'bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold shadow-xs'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 )}
               >
@@ -62,7 +62,7 @@ export function PublicNavbar() {
         <div className="flex items-center gap-2">
           <Link
             href="/app"
-            className="inline-flex items-center gap-1.5 h-10 px-4 sm:px-5 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-xs sm:text-sm transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 h-10 px-4 sm:px-5 rounded-full bg-[var(--accent-primary)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] font-semibold text-xs sm:text-sm transition-colors shadow-xs"
           >
             <span>Open My Finance</span>
             <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -97,7 +97,7 @@ export function PublicNavbar() {
                 className={cn(
                   'block px-3.5 py-2.5 rounded-xl text-sm font-medium',
                   active
-                    ? 'bg-emerald-500/15 text-[var(--accent-primary)] font-semibold'
+                    ? 'bg-[var(--brand-subtle)] text-[var(--accent-primary)] font-semibold'
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 )}
               >
